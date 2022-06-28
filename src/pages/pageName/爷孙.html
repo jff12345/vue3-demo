@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon
+    " href="../../../../demo/src/assets/logo1.png">
+    <title>demo </title>
+
+    <script src="../../assets/lib/vue.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        #app {
+            margin: 0 auto;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+
+        <home-header>
+            <home-aside>
+                <home-footer></home-footer>
+            </home-aside>
+
+        </home-header>
+
+    </div>
+
+    <template id="header">
+
+        <slot></slot>
+    </template>
+    <template id="aside">
+
+        <slot></slot>
+    </template>
+    <template id="footer">
+
+        <div> {{userName}}</div>
+    </template>
+
+
+    <script>
+
+        let HomeHeader = {
+
+            template: "#header",
+
+
+
+        }
+        let HomeAside = {
+
+            template: "#aside",
+
+
+        }
+        let HomeFooter = {
+
+            template: "#footer",
+            inject: ['userName'],
+            methods: {
+                cheng() {
+                    console.log(this.userName);
+                },
+            },
+            created() {
+                this.cheng()
+            }
+
+        }
+
+        const Counter = {
+            components: {
+                "home-header": HomeHeader,
+                "home-aside": HomeAside,
+                "home-footer": HomeFooter,
+
+            },
+            data() {
+                return {
+
+
+                    userName: "小明"
+
+                }
+            },
+            provide() {
+                return {
+                    userName: this.userName
+                }
+            },
+            methods: {
+
+
+            },
+        }
+        Vue.createApp(Counter).mount('#app')
+
+
+
+
+
+    </script>
+</body>
+
+</html>

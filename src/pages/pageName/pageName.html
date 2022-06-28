@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon
+    " href="../../../../demo/src/assets/logo1.png">
+    <title>demo </title>
+
+    <script src="../../assets/lib/vue.js"></script>
+    <style>
+        *{
+           padding: 0;
+           margin: 0;
+        }
+      #app{
+          margin: 0 auto;
+        
+      }
+      .big{
+        height: 100vh;
+          display: grid;
+          grid-template-rows: 60px auto 60px;
+      }
+      .header{
+          background-color: #00a8f3;
+          display: flex;
+      }
+      .footer{
+          background-color: #037874;
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          font-size: 10px;
+      }
+      .item{
+         
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+      .icon{
+          width: 26px;
+          height: 26px;
+       
+      }
+      .active{
+          color: red;
+      }
+       
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="big">
+            <home-header  ></home-header>
+            <home-aside></home-aside>
+            <home-footer>
+            <home-footer-item
+                :class="{ active : s==x.icon }" 
+                 v-for="x in arr" 
+                 @tab-event="add(x)" 
+                 :icon="s==x.icon?x.icon+'1':x.icon" 
+                 :key="x.id" >
+                  {{x.title}}
+            </home-footer-item>
+
+            </home-footer>
+            
+        
+    </div>
+    </div>
+
+    <template id="header">
+        <div class="header"></div>
+    </template>
+    <template id="aside">
+        <div class="main"></div>
+    </template>
+    <template id="footer">
+        <div class="footer">
+            <slot></slot>
+    </div>
+   </template>
+    <template id="footeritem">
+            <div class="item" @click="$emit('TabEvent')" >
+             <img   class="icon" :src="'../../assets/img/icon_'+icon+'.png'" alt="">
+            <slot></slot>
+            </div>
+    </template>
+
+
+    <script>
+      
+        let HomeHeader = {
+           
+            template: "#header"
+        }
+        let HomeAside = {
+          
+            template: "#aside"
+        }
+        let HomeFooter = {
+          
+          template: "#footer"
+      }
+      let HomeFooterItem = {
+          props:['icon'],
+          emits:['TabEvent'],
+          template: "#footeritem"
+      }
+        const Counter = {
+            components: {
+               "home-header" :HomeHeader,
+               "home-aside"  :HomeAside,
+               "home-footer"  :HomeFooter,
+               "home-footer-item":HomeFooterItem,
+            },
+            data() {
+                return {
+                     arr:[
+                      {
+                          title:"首页",
+                          id:1,
+                          icon:"shouye",
+                         
+                      },
+                      {
+                          title:"分类",
+                          id:2,
+                          icon:"fenlei",
+                        
+                      },
+                      {
+                          title:"购物车",
+                          id:3,
+                          icon:"gouwuche",
+                         
+                      },
+                      {
+                          title:"个人中心",
+                          id:4,
+                          icon:"prople",
+                        
+                      },
+                     ],
+                  
+                     s:false
+
+                    }
+            },
+            methods : {
+                add(x){
+                   this.s=x.icon
+                },
+               
+            },
+        }
+         Vue.createApp(Counter).mount('#app')
+        
+
+
+
+        // function Vue(options) {
+        //     this.data = options.data();
+        // }
+
+        // Vue.createApp = function (options) {
+        //     var vm = new Vue(options)
+        //     return vm
+        // }
+
+
+        // class Vue {
+        //     constructor(options) {
+        //         this.data = options.data();
+        //     }
+        //     static createApp(options) {
+        //         var vm = new Vue(options);
+        //         return vm;
+        //     }
+        // }
+      
+
+        // var app = Vue.createApp({
+        //     components: {
+        //         header
+        //     },
+        //     data() {
+        //         return {
+        //             msg: "迪迦奥特曼"
+        //         }
+        //     }
+        // })
+
+
+
+
+        // console.log(app.data);
+    </script>
+</body>
+
+</html>

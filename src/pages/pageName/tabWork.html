@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../assets/lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <el-tabs v-model="activeName">
+            <el-tab-pane>用户管理1111</el-tab-pane>
+            <el-tab-pane>配置管理2222</el-tab-pane>
+            <el-tab-pane>角色管理3333</el-tab-pane>
+            <el-tab-pane>定时任务补偿4444</el-tab-pane>
+        </el-tabs>
+    </div>
+
+
+    <template id="tabs">
+        <div class="tabs" @click="handleClick">
+            <slot></slot>
+        </div>
+    </template>
+
+    <template id="tab-pane">
+        <div>
+            <slot></slot>
+            {{ activeName }}
+        </div>
+    </template>
+</body>
+<script>
+    const ElTabs = {
+        template: '#tabs',
+        props: ['modelValue'],
+        emits: ['update:modelValue', 'tab-click'],
+        provide() {
+            return {
+                activeName: Vue.computed(() => this.modelValue)
+            }
+        },
+        methods: {
+            handleClick($event) {
+                this.$emit('update:modelValue', $event.target.attributes.name.value);
+
+            }
+        }
+    }
+    const ElTabPane = {
+        template: '#tab-pane',
+        inject: ['activeName'],
+    }
+    Vue.createApp({
+        components: {
+            ElTabs,
+            ElTabPane
+        },
+        data() {
+            return {
+                activeName: "userManage",
+            }
+        },
+        methods: {
+
+        },
+
+    }).mount('#app')
+</script>
+
+</html>

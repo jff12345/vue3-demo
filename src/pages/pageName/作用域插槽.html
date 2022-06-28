@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../assets/lib/vue.js"></script>
+    <style>
+        .slot {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <el-list :data="data">
+            <template v-slot:scope="{row:xx}">
+                <el-list-item>
+                    <div>{{xx}}</div>
+                    <div>{{ xx.id }}</div>
+                    <div>{{xx.label}}</div>
+
+
+                </el-list-item>
+            </template>
+        </el-list>
+    </div>
+
+    <template id="ellist">
+        <template v-for="item in data">
+            <slot name="scope" :row="item"> </slot>
+        </template>
+    </template>
+
+    <template id="ellistitem">
+        <slot></slot>
+
+    </template>
+
+
+</body>
+<script>
+    let ElList = {
+        template: "#ellist",
+        props: {
+            data: Array
+        }
+    }
+    let ElListItem = {
+        template: "#ellistitem",
+        props: {
+            row: Object
+        }
+
+    }
+    Vue.createApp({
+
+        components: {
+            "el-list": ElList,
+            "el-list-item": ElListItem,
+        },
+        data() {
+            return {
+                data: [
+                    {
+                        id: 1,
+                        label: '水果'
+                    },
+                    {
+                        id: 2,
+                        label: '烧烤'
+                    },
+                    {
+                        id: 3,
+                        label: '电脑'
+                    },
+                    {
+                        id: 4,
+                        label: '衣服'
+                    }
+                ]
+            }
+        }
+    }).mount('#app')
+</script>
+
+</html>

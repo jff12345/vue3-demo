@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon
+    " href="../../../../demo/src/assets/logo1.png">
+    <title>demo </title>
+
+    <script src="../../assets/lib/vue.js"></script>
+    <style>
+        .active {
+            background-color: aqua;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="big">
+
+            <home-footer>
+
+                <home-footer-item :class="{ active : s==x.icon }" v-for="x in arr" @tab-event="add(x)" :key="x.id">
+                    {{x.title}}
+                </home-footer-item>
+
+            </home-footer>
+
+
+        </div>
+    </div>
+
+
+    <template id="footer">
+        <div class="footer">
+            <slot></slot>
+
+        </div>
+    </template>
+    <template id="footeritem">
+        <div @click="$emit('TabEvent')">
+            我点击的是 {{user}}
+            <slot></slot>
+
+        </div>
+
+    </template>
+
+
+    <script>
+
+
+        let HomeFooter = {
+
+            template: "#footer"
+        }
+        let HomeFooterItem = {
+
+            emits: ['TabEvent'],
+            inject: ['userName'],
+            template: "#footeritem",
+            data() {
+                return {
+                    user: this.userName
+                }
+            },
+
+
+        }
+        const Counter = {
+            components: {
+
+                "home-footer": HomeFooter,
+                "home-footer-item": HomeFooterItem,
+            },
+            data() {
+                return {
+                    arr: [
+                        {
+                            title: "111",
+                            id: 1,
+                            icon: "shouye",
+
+                        },
+                        {
+                            title: "222",
+                            id: 2,
+                            icon: "333",
+
+                        },
+                        {
+                            title: "333",
+                            id: 3,
+                            icon: "gouwuche",
+
+                        },
+                        {
+                            title: "444",
+                            id: 4,
+                            icon: "prople",
+
+                        },
+                    ],
+
+                    s: false
+
+
+                }
+            },
+            provide() {
+                return {
+                    userName: this.s
+                }
+            },
+            methods: {
+                add(x) {
+                    console.log(x);
+                    this.s = x.icon
+
+                },
+
+
+            },
+        }
+        Vue.createApp(Counter).mount('#app')
+
+
+
+
+
+    </script>
+</body>
+
+</html>
